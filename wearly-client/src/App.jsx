@@ -6,6 +6,10 @@ import Login from "./pages/auth/login";
 import ProductDetailsPage from "./pages/ProductDetailsPage";
 import CreatorPage from "./pages/CreatorPage";
 import CartPage from "./pages/CartPage";
+import ProductPage from "./pages/ProductPage"
+import NotFoundPage from "./pages/NotFoundPage"
+import Private from "./components/Private";
+import PrivateCreator from "./components/PrivateCreator";
 function App() {
 
   return (
@@ -15,9 +19,9 @@ function App() {
        <Route path="/signup" element={<Signup/>}/>
        <Route path="/login" element={<Login/>}/>
        <Route path="/productes" element={<ProductPage/>}/>
-       <Route path="/products/:productId" element={<ProductDetailsPage/>}/>
-       <Route path="/creator/:userId" element={<CreatorPage/>}/>
-       <Route path="/cart/:userId" element={<CartPage/>}/>
+       <Route path="/products/:productId" element={<Private><ProductDetailsPage/></Private>}/>
+       <Route path="/creator/:userId" element={<PrivateCreator><CreatorPage/></PrivateCreator>}/>
+       <Route path="/cart/:userId" element={<Private><CartPage/></Private>}/>
        <Route path="*" element={<NotFoundPage/>}/>
      </Routes>
       

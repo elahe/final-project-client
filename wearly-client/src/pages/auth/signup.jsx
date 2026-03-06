@@ -2,6 +2,8 @@ import axios from 'axios'
 import React from 'react'
 import { useState } from 'react'
 import service from '../../services/config.services'
+import { useNavigate } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 
 export default function Signup() {
     const navigate = useNavigate()
@@ -15,7 +17,7 @@ export default function Signup() {
         e.preventDefault()
 
         if(!name || !email || !password || !role){
-            setErrorMessage("All fields are required (email, password, name)")
+            setErrorMessage("All fields are required (email, password, username)")
             return
         }
         const body ={
@@ -63,7 +65,12 @@ export default function Signup() {
           </select>
         </label>
         <button type="submit">signup</button>
-         {errorMessage && <p>{errorMessage}</p>}
+         {errorMessage && <>
+            <p>{errorMessage}</p>
+            <span>
+                <Link to={`/login`}>login</Link>
+            </span>
+            </>}
 
     </form>
         

@@ -22,8 +22,23 @@ function AuthWrapper(props){
     },[])
 
     const verifyTokenReqClient = async()=>{
+
+      const token = localStorage.getItem("authToken")
+      console.log(token)
+
+
+      // if (!token) {
+      //   setIsLoggedIn(false)
+      //   return
+      // }
         try {
-            const response = await service.get(`/auth/verify`)  // clientSide ask server to check if the token of the user is correct or not 
+          const response = await service.get(`/auth/verify`, {
+            headers: {
+              authorization: `Bearer ${token}`
+            }
+          })
+
+            // const response = await service.get(`/auth/verify`)  // clientSide ask server to check if the token of the user is correct or not 
             console.log(response) // get user payload(info about the user like id email)
             setIsLoggedIn(true)
             setLoggedUserId(response.data.payload._id)

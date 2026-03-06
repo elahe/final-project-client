@@ -1,5 +1,9 @@
 import React, { useContext } from 'react'
 import { AuthContext } from '../../context/auth.context'
+import { Link, useNavigate } from 'react-router-dom'
+import { useState } from 'react'
+import service from '../../services/config.services'
+
 export default function Login() {
         const navigate = useNavigate()
         const [email,setEmail] =useState("")
@@ -55,7 +59,12 @@ export default function Login() {
                 <input type="password" placeholder="password" value={password} onChange={(e)=>setPassword(e.target.value)}/>
             </label>
             <button type='submit'>login</button>
-            {errorMessage && <p>{errorMessage}</p>}
+            {errorMessage && <>
+            <p>{errorMessage}</p>
+            <span>
+                <Link to={`/signup`}>signup</Link>
+            </span>
+            </>}
         </form>
     </>
   )
