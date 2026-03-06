@@ -1,8 +1,10 @@
 import axios from 'axios'
 import React from 'react'
 import { useState } from 'react'
+import service from '../../services/config.services'
 
-export default function signup() {
+export default function Signup() {
+    const navigate = useNavigate()
     const [name,setName] =useState("")
     const [email,setEmail] =useState("")
     const [password,setPassword] =useState("")
@@ -12,7 +14,7 @@ export default function signup() {
     const handleSubmit = async(e)=> {
         e.preventDefault()
 
-        if(!name || !email || !password){
+        if(!name || !email || !password || !role){
             setErrorMessage("All fields are required (email, password, name)")
             return
         }
@@ -24,8 +26,9 @@ export default function signup() {
         }
 
         try {
-            const response = await axios.post(`${import.meta.env.VITE_SERVER_URL}/api/auth/signup`,body)
+            const response = await service.post(`/auth/signup`,body)
             console.log("you are registered",response)
+            //navigate(/login)
         } catch (error) {
             console.log(error)
             if (error.response.status === 400) {
@@ -59,7 +62,7 @@ export default function signup() {
             <option value="customer">Customer</option>
           </select>
         </label>
-        <button>signup</button>
+        <button type="submit">signup</button>
          {errorMessage && <p>{errorMessage}</p>}
 
     </form>
