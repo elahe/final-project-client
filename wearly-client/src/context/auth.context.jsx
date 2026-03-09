@@ -42,6 +42,7 @@ function AuthWrapper(props){
             console.log(response) // get user payload(info about the user like id email)
             setIsLoggedIn(true)
             setLoggedUserId(response.data.payload._id)
+            console.log(response.data.payload._id)
             setLoggedUserRole(response.data.payload.role)
             setLoadingWaitVerifyToken(false)
         } catch (error) {

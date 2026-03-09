@@ -1,6 +1,7 @@
 import React, { useContext, useEffect, useState } from "react";
 import CreateProductModal from "../components/CreateProductModal";
-import AuthContext from "../context/auth.context";
+import {AuthContext} from "../context/auth.context";
+import { useParams } from "react-router-dom";
 function CreatorPage() {
   const { loggedUserId } = useContext(AuthContext);
   const [isOpen, setIsOpen] = useState(false);
@@ -9,19 +10,20 @@ function CreatorPage() {
   const [error, setError] = useState(null);
 
   // 1. Fetch ALL user's products on page load and filter it for just the loggedIn User
+  const {userId} = useParams()
    
   useEffect(()=>{
      allUserProducts()
-  },[loggedUserId])
+  },[userId])
 
   const allUserProducts = async () => {
-    if (!loggedUserId) return;
+    if (!userId) return;
     setLoading(true);
     setError(null);
     try {
       const response = await service.get(`/products`);
     const userProducts = response.data.filter(product => 
-      product.creator?._id === loggedUserId
+      product.creator?._id === userId
     );
       setProducts(userProducts)
     } catch (error) {
@@ -40,7 +42,7 @@ function CreatorPage() {
         <button 
           onClick={() => setIsOpen(true)}
           className="bg-emerald-600 text-white px-8 py-3 rounded-xl hover:bg-emerald-700 transition-all font-semibold"
-          disabled={!loggedUserId}
+          disabled={!userId}
         >
           + Create New Product
         </button>

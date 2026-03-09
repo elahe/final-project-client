@@ -1,6 +1,6 @@
 import { useContext, useState } from "react";
 import UploadImage from "./Cloudinary"
-import AuthContext from '../context/auth.context'
+import {AuthContext} from '../context/auth.context'
 import { useNavigate } from "react-router-dom";
 function CreateProductModal({ isOpen, setIsOpen, onSuccess }) {
   const {loggedUserId}=useContext(AuthContext)
