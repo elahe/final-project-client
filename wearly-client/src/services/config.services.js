@@ -10,5 +10,12 @@ const service = axios.create({
 //   }
 //   return config
 // })
+service.interceptors.request.use((config) => {
+  const token = localStorage.getItem('authToken');
+  if (token) {
+    config.headers.authorization = `Bearer ${token}`;
+  }
+  return config;
+});
 
 export default service

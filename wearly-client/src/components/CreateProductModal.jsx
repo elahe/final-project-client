@@ -1,10 +1,11 @@
 import { useContext, useState } from "react";
-import UploadImage from "./Cloudinary"
-import {AuthContext} from '../context/auth.context'
+import UploadImage from "./Cloudinary";
+import { AuthContext } from "../context/auth.context";
 import { useNavigate } from "react-router-dom";
+import service from "../services/config.services";
 function CreateProductModal({ isOpen, setIsOpen, onSuccess }) {
-  const {loggedUserId}=useContext(AuthContext)
-  const navigate = useNavigate()
+  const { loggedUserId } = useContext(AuthContext);
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     imageUrl: "",
     name: "",
@@ -25,24 +26,33 @@ function CreateProductModal({ isOpen, setIsOpen, onSuccess }) {
   const handleImageUpload = (imageUrl) => {
     setFormData({ ...formData, imageUrl });
   };
-  const closeModal=()=>{
-    setIsOpen(false)
-  }
-  const handleSubmit = async(e) => {
+  const closeModal = () => {
+    setIsOpen(false);
+  };
+  const handleSubmit = async (e) => {
     e.preventDefault();
     console.log("Product data:", formData);
-   try {
-     const response = await service.post(`/products`, {
-        formData
-     })
-     console.log(response)
-     const newProduct = response.data
-     onSuccess(newProduct)
-     closeModal();
-     navigate(`/creator/${loggedUserId}`)
-   } catch (error) {
-    
-   }
+    try {
+      const response = await service.post(`/products`,{
+        ...formData,
+        creator: loggedUserId
+      });
+      console.log(response);
+      const newProduct = response.data;
+      onSuccess(newProduct);
+      closeModal();
+      navigate(`/creator/${loggedUserId}`);
+   /*    // ✅ Only navigate if NOT already on creator page
+    const currentPath = window.location.pathname;
+    if (!currentPath.includes('/creator/')) {
+      navigate(`/creator/${loggedUserId}`);
+    } else {
+      console.log("✅ Already on creator page - refreshing products");
+      window.location.reload();  // Refresh to see new product
+    } */
+    } catch (error) {
+        console.error("❌ Error:", error);
+    }
   };
 
   if (!isOpen) return null;
@@ -52,7 +62,9 @@ function CreateProductModal({ isOpen, setIsOpen, onSuccess }) {
       <div className="bg-white rounded-2xl shadow-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
         {/* Header */}
         <div className="p-8 border-b border-gray-200">
-          <h2 className="text-3xl font-bold text-gray-900 mb-2">Create Product</h2>
+          <h2 className="text-3xl font-bold text-gray-900 mb-2">
+            Create Product
+          </h2>
           <p className="text-gray-600">Add new product with image</p>
         </div>
 
@@ -75,7 +87,7 @@ function CreateProductModal({ isOpen, setIsOpen, onSuccess }) {
                   <span className="text-gray-500 font-medium">No image</span>
                 </div>
               )}
-              
+
               {/* Your Cloudinary Upload Component */}
               <div className="flex-1 min-w-0">
                 <UploadImage setCoverImageUrl={handleImageUpload} />
@@ -154,9 +166,10 @@ function CreateProductModal({ isOpen, setIsOpen, onSuccess }) {
                 className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all"
               >
                 <option value="">Choose category</option>
-                <option value="shoes">Shoes</option>
-                <option value="clothing">Clothing</option>
-                <option value="accessories">Accessories</option>
+                <option value="formal">formal</option>
+                <option value="Bohemian">Bohemian</option>
+                <option value="casual">casual</option>
+                <option value="sport">sport</option>
               </select>
             </div>
 
@@ -171,9 +184,10 @@ function CreateProductModal({ isOpen, setIsOpen, onSuccess }) {
                 className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all"
               >
                 <option value="">Choose gender</option>
-                <option value="men">Men</option>
-                <option value="women">Women</option>
-                <option value="unisex">Unisex</option>
+                <option value="men">men</option>
+                <option value="women">women</option>
+                <option value="unisex">unisex</option>
+                <option value="kids">kids</option>
               </select>
             </div>
           </div>
