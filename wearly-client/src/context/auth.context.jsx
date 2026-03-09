@@ -52,7 +52,7 @@ function AuthWrapper(props){
             setLoadingWaitVerifyToken(false)
         }
     }
-  if(loadingWaitVerifyToken){
+  if(loadingWaitVerifyToken){   // warning : should be fixed later
     return <h2>...Waiting the verification of the user</h2>
   }
   return(
