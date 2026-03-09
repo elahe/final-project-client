@@ -38,7 +38,7 @@ function CreateProductModal({ isOpen, setIsOpen, onSuccess }) {
      console.log(response)
      const newProduct = response.data
      onSuccess(newProduct)
-     setIsOpen(false);
+     closeModal();
      navigate(`/creator/${loggedUserId}`)
    } catch (error) {
     
