@@ -2,8 +2,9 @@ import React, { useContext, useEffect, useState } from "react";
 import CreateProductModal from "../components/CreateProductModal";
 import {AuthContext} from "../context/auth.context";
 import { useParams } from "react-router-dom";
+import service from "../services/config.services";
 function CreatorPage() {
-  const { loggedUserId } = useContext(AuthContext);
+  const { loggedUserId, loadingWaitVerifyToken } = useContext(AuthContext);
   const [isOpen, setIsOpen] = useState(false);
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -14,19 +15,23 @@ function CreatorPage() {
    
   useEffect(()=>{
      allUserProducts()
-  },[userId])
+  },[loggedUserId])
 
   const allUserProducts = async () => {
-    if (!userId) return;
+    //if (!userId) return;
     setLoading(true);
     setError(null);
+    console.log("testing")
     try {
       const response = await service.get(`/products`);
-    const userProducts = response.data.filter(product => 
-      product.creator?._id === userId
+      console.log(response)
+      const targetUserId =userId || loggedUserId
+      const userProducts = response.data.filter(product => 
+      product.creator?._id === targetUserId
     );
       setProducts(userProducts)
     } catch (error) {
+      console.log(error)
       setError('Failed to load products')
     }
     setLoading(false)
@@ -48,12 +53,11 @@ function CreatorPage() {
         </button>
       </div>
 
-      {/* CreateProductModal - passes YOUR setResponse */}
       {isOpen && (
         <CreateProductModal 
           isOpen={isOpen} 
           setIsOpen={setIsOpen}
-          onSuccess={handleNewProduct}   // ← Bonus callback
+          onSuccess={handleNewProduct}
         />
       )}
 
@@ -79,6 +83,10 @@ function CreatorPage() {
               src={product.imageUrl} 
               alt={product.name}
               className="w-full h-48 object-cover rounded-xl mb-4"
+              onError={(e)=>{
+                e.target.src="./placeholder.jpg"
+                console.error('Image failed:', product.imageUrl);
+              }}
             />
             <h3 className="font-bold text-xl mb-2">{product.name}</h3>
             <p className="text-2xl font-semibold text-emerald-600 mb-2">

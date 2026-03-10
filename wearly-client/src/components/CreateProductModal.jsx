@@ -196,7 +196,7 @@ function CreateProductModal({ isOpen, setIsOpen, onSuccess }) {
           <div className="flex gap-4 pt-6 border-t border-gray-100">
             <button
               type="submit"
-              disabled={!formData.name || !formData.price || !formData.imageUrl}
+              disabled={!formData.name || !formData.price}
               className="flex-1 bg-gradient-to-r from-emerald-600 to-emerald-700 hover:from-emerald-700 hover:to-emerald-800 text-white font-bold py-4 px-8 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
             >
               Create Product
