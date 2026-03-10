@@ -3,10 +3,10 @@ import CreateProductModal from "../components/CreateProductModal";
 import {AuthContext} from "../context/auth.context";
 import { useParams } from "react-router-dom";
 import service from "../services/config.services";
-function CreatorPage() {
+function CreatorPage({products,setProducts}) {
   const { loggedUserId, loadingWaitVerifyToken } = useContext(AuthContext);
   const [isOpen, setIsOpen] = useState(false);
-  const [products, setProducts] = useState([]);
+  // const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
