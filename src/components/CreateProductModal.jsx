@@ -42,14 +42,6 @@ function CreateProductModal({ isOpen, setIsOpen, onSuccess }) {
       onSuccess(newProduct);
       closeModal();
       navigate(`/creator/${loggedUserId}`);
-   /*    // ✅ Only navigate if NOT already on creator page
-    const currentPath = window.location.pathname;
-    if (!currentPath.includes('/creator/')) {
-      navigate(`/creator/${loggedUserId}`);
-    } else {
-      console.log("✅ Already on creator page - refreshing products");
-      window.location.reload();  // Refresh to see new product
-    } */
     } catch (error) {
         console.error("❌ Error:", error);
     }

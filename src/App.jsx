@@ -37,7 +37,7 @@ function App() {
        <Route path="/login" element={<Login/>}/>
        <Route path="/productes" element={<ProductPage/>}/>
        <Route path="/products/:productId" element={<Private><ProductDetailsPage/></Private>}/>
-       <Route path="/creator/:userId" element={<PrivateCreator><CreatorPage products={products} setProducts={setProducts} /></PrivateCreator>}/>
+       <Route path="/creator" element={<PrivateCreator><CreatorPage products={products} setProducts={setProducts} /></PrivateCreator>}/>
        <Route path="/cart/:userId" element={<Private><CartPage/></Private>}/>
        <Route path="*" element={<NotFoundPage/>}/>
      </Routes>
