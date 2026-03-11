@@ -14,6 +14,7 @@ import { useState } from "react";
 import { useEffect } from "react";
 import service from "./services/config.services";
 import SuccessPage from "./pages/SuccessPage";
+import NavBar from "./components/NavBar";
 
 
 function App() {
@@ -32,6 +33,7 @@ function App() {
   }, []);
   return (
     <>
+    <NavBar/>
      <Routes>
        <Route path="/" element={<HomePage products={products}/>}/>
        <Route path="/signup" element={<Signup/>}/>

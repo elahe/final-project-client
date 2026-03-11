@@ -26,19 +26,51 @@ function ProductDetailsPage({products}) {
 
 
     if (!product) { // why it does work with safty check?
-    return <h2>Loading product...</h2>
-  }
+      return <h2>Loading product...</h2>
+    }
   return (
-    <>
-      <div>
-        <img src={product.imageUrl} width="300" />
-        <h1>{product.name}</h1>
-        <p>{product.description}</p>
-        <p>€{product.price}</p>
+  <>
+    <div className="max-w-6xl mx-auto p-10">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
+
+        {/* Image */}
+        <div className="w-full">
+          <img
+            src={product.imageUrl}
+            alt={product.name}
+            className="w-full rounded-lg shadow-md object-cover"
+          />
+        </div>
+
+        {/* Product Info */}
+        <div className="flex flex-col h-full">
+
+          <h1 className="text-4xl font-bold text-gray-800">
+            {product.name}
+          </h1>
+
+          <p className="text-gray-500 text-lg">
+            {product.description}
+          </p>
+
+          <p className="text-3xl font-semibold text-gray-900">
+            €{product.price}
+          </p>
+
+          <button className="mt-auto bg-yellow-400 hover:bg-yellow-500 text-gray-900 font-semibold px-6 py-3 rounded-md w-fit transition">
+            + Add to Cart — €{product.price}
+          </button>
+
+        </div>
       </div>
-      <Comments comments={comments} setComments={setComments}/>
-    </>
-  )
+
+      {/* Comments Section */}
+      <div className="mt-16 border-t pt-10">
+        <Comments comments={comments} setComments={setComments} productId={productId}/>
+      </div>
+    </div>
+  </>
+)
 }
 
 export default ProductDetailsPage
