@@ -63,7 +63,7 @@ function CheckoutForm() {
       confirmParams: {
         // Make sure to change this to your payment completion page
         // !IMPORTANT. If using VITE, make sure you use the correct variable naming and usage (import.meta.env.VITE_VARIABLE_NAME)
-        return_url: `${import.meta.env.VITE_CLIENT_URL}/success`, 
+        return_url: `${import.meta.env.VITE_CLIENT_URL}/payment-success`, 
       },
     });
 

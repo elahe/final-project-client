@@ -88,7 +88,7 @@ function CartPage() {
             </div>
             <h2 className="text-3xl font-bold text-gray-900 mb-4">Your cart is empty</h2>
             <p className="text-lg text-gray-600 mb-8">Add some products to get started!</p>
-            <a href="/productes" className="bg-emerald-600 text-white px-12 py-4 rounded-2xl text-xl font-bold hover:bg-emerald-700 transition-all shadow-lg">
+            <a href="/products" className="bg-emerald-600 text-white px-12 py-4 rounded-2xl text-xl font-bold hover:bg-emerald-700 transition-all shadow-lg">
               Continue Shopping
             </a>
           </div>
