@@ -13,6 +13,7 @@ import PrivateCreator from "./components/PrivateCreator";
 import { useState } from "react";
 import { useEffect } from "react";
 import service from "./services/config.services";
+import SuccessPage from "./pages/SuccessPage";
 
 
 function App() {
@@ -39,6 +40,7 @@ function App() {
        <Route path="/products/:productId" element={<Private><ProductDetailsPage products={products}/></Private>}/>
        <Route path="/creator" element={<PrivateCreator><CreatorPage products={products} setProducts={setProducts} /></PrivateCreator>}/>
        <Route path="/cart" element={<Private><CartPage/></Private>}/>
+       <Route path="/success" element={<Private><SuccessPage/></Private>}/>
        <Route path="*" element={<NotFoundPage/>}/>
      </Routes>
       

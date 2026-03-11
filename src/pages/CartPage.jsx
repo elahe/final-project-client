@@ -1,14 +1,15 @@
 import React, { useEffect, useState, useMemo } from "react";
 import service from "../services/config.services";
+import PaymentIntent from "../components/PaymentIntent";
 
 function CartPage() {
   const [cart, setCart] = useState(null);
   const [loading, setLoading] = useState(true);
-
+  const [showPaymentIntent, setShowPaymentIntent] = useState(false)
   useEffect(() => {
     loadCart();
   }, []);
-
+  
   const loadCart = async () => {
     try {
       const response = await service.get("/cart");
@@ -20,14 +21,13 @@ function CartPage() {
     }
   };
 
-  // 🔥 SIMPLE TOTAL PRICE
   const totalPrice = useMemo(() => {
     if (!cart?.items) return 0;
     return cart.items.reduce((sum, item) => sum + (item.product.price * item.quantity), 0);
   }, [cart]);
 
   if (loading) return <div className="p-12 text-center">Loading cart...</div>;
-
+  console.log(cart)
   return (
     <div className="min-h-screen bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-6xl mx-auto">
@@ -35,8 +35,10 @@ function CartPage() {
         
         {cart?.items?.length ? (
           <>
+            
             {/* Items List */}
             <div className="space-y-6 mb-12">
+              
               {cart.items.map((item) => (
                 <div key={item.product._id} className="bg-white shadow-lg rounded-3xl p-8 border border-gray-200 hover:shadow-2xl transition-all">
                   <div className="flex items-center gap-6">
@@ -63,6 +65,7 @@ function CartPage() {
                     </div>
                   </div>
                 </div>
+
               ))}
             </div>
 
@@ -72,9 +75,10 @@ function CartPage() {
                 <span>Total Price:</span>
                 <span>${totalPrice.toFixed(2)}</span>
               </div>
-              <button className="w-full mt-6 bg-white text-emerald-600 py-4 px-8 rounded-2xl text-xl font-bold hover:bg-gray-100 transition-all shadow-xl">
+              {showPaymentIntent===false ? <button onClick={()=>setShowPaymentIntent(true)}
+                className="w-full mt-6 bg-white text-emerald-600 py-4 px-8 rounded-2xl text-xl font-bold hover:bg-gray-100 transition-all shadow-xl">
                 Proceed to Checkout
-              </button>
+              </button>: <PaymentIntent cart={cart}/>} 
             </div>
           </>
         ) : (
