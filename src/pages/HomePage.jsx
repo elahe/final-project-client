@@ -72,7 +72,7 @@ function HomePage({ products }) {
         })}
       </div>
       <div className="flex justify-center mt-12">
-  <Link to="/productes">
+  <Link to="/products">
     <button className="px-8 py-3 bg-black text-white font-semibold rounded-md hover:bg-gray-800 transition">
       See More
     </button>

@@ -4,6 +4,8 @@ import service from "../services/config.services";
 
 function ProductPage({products}) {
   const [isClicked, setIsClicked]= useState(false)
+
+  const[filter, setFilter] = useState("all")
   
    const handleAddingToCart = async (product) => {
     try {
@@ -17,11 +19,82 @@ function ProductPage({products}) {
       console.log("Add failed:", error);
     }
   }
+  //filter gender
+
+  const getFilter =() =>{
+    if(filter === "women"){
+      return products.filter(product => product.gender === "women")
+    }if(filter === "men"){
+      return products.filter(product => product.gender === "men")
+    }if(filter === "kids"){
+      return products.filter(product => product.gender === "kids")
+    }if(filter === "unisex"){
+      return products.filter(product => product.gender === "unisex")
+    }if(filter === "all"){
+      return products
+    }
+  }
 
   return (
     <>
+      <div className="flex justify-center gap-4 mb-10 flex-wrap">
+  <button
+    onClick={() => setFilter("all")}
+    className={`px-5 py-2 rounded-full border transition ${
+      filter === "all"
+        ? "bg-black text-white"
+        : "bg-white text-gray-700 hover:bg-gray-100"
+    }`}
+  >
+    All
+  </button>
+
+  <button
+    onClick={() => setFilter("women")}
+    className={`px-5 py-2 rounded-full border transition ${
+      filter === "women"
+        ? "bg-black text-white"
+        : "bg-white text-gray-700 hover:bg-gray-100"
+    }`}
+  >
+    Women
+  </button>
+
+  <button
+    onClick={() => setFilter("men")}
+    className={`px-5 py-2 rounded-full border transition ${
+      filter === "men"
+        ? "bg-black text-white"
+        : "bg-white text-gray-700 hover:bg-gray-100"
+    }`}
+  >
+    Men
+  </button>
+
+  <button
+    onClick={() => setFilter("kids")}
+    className={`px-5 py-2 rounded-full border transition ${
+      filter === "kids"
+        ? "bg-black text-white"
+        : "bg-white text-gray-700 hover:bg-gray-100"
+    }`}
+  >
+    Kids
+  </button>
+
+  <button
+    onClick={() => setFilter("unisex")}
+    className={`px-5 py-2 rounded-full border transition ${
+      filter === "unisex"
+        ? "bg-black text-white"
+        : "bg-white text-gray-700 hover:bg-gray-100"
+    }`}
+  >
+    Unisex
+  </button>
+</div>
       <div className="grid md:grid-cols-4 gap-8">
-        {products.map((eachproduct) => {
+        {getFilter().map((eachproduct) => {
           return (
             <div key={eachproduct._id} className="border border-gray-200">
               {/* Image */}

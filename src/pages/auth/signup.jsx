@@ -30,7 +30,7 @@ export default function Signup() {
         try {
             const response = await service.post(`/auth/signup`,body)
             console.log("you are registered",response)
-            //navigate(/login)
+            navigate("/login")
         } catch (error) {
             console.log(error)
             if (error.response.status === 400) {
@@ -46,34 +46,83 @@ export default function Signup() {
 
     
   return (
-    <>
-    <form onSubmit={handleSubmit}>
-        <label>
-            <input type="text" placeholder='name' value={name} onChange={(e)=>setName(e.target.value)}/>
+  <>
+    <div className="flex items-center justify-center min-h-screen bg-gray-100">
+      <form
+        onSubmit={handleSubmit}
+        className="bg-white p-8 rounded-2xl shadow-lg w-full max-w-md space-y-5"
+      >
+        <h2 className="text-2xl font-bold text-center text-gray-700">
+          Signup
+        </h2>
+
+        <label className="block">
+          <input
+            type="text"
+            placeholder="Name"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
+          />
         </label>
-        <label>
-            <input type="email" placeholder="email" value={email} onChange={(e)=>setEmail(e.target.value)}/>
+
+        <label className="block">
+          <input
+            type="email"
+            placeholder="Email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
+          />
         </label>
-        <label>
-            <input type="password" placeholder="password" value={password} onChange={(e)=>setPassword(e.target.value)}/>
+
+        <label className="block">
+          <input
+            type="password"
+            placeholder="Password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
+          />
         </label>
-        <label>
+
+        <label className="block text-gray-600">
           Role
-          <select name="role" value={role} onChange={(e) => setRole(e.target.value)}>
+          <select
+            name="role"
+            value={role}
+            onChange={(e) => setRole(e.target.value)}
+            className="w-full mt-1 px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
+          >
+            <option value="stylist">select</option>
             <option value="stylist">Stylist</option>
             <option value="customer">Customer</option>
           </select>
         </label>
-        <button type="submit">signup</button>
-         {errorMessage && <>
-            <p>{errorMessage}</p>
-            <span>
-                <Link to={`/login`}>login</Link>
-            </span>
-            </>}
 
-    </form>
-        
-    </>
-  )
+        <button
+          type="submit"
+          className="w-full py-2 bg-blue-500 text-white font-semibold rounded-lg hover:bg-blue-600 transition"
+        >
+          Signup
+        </button>
+
+        {errorMessage && (
+          <>
+            <p className="text-red-500 text-sm text-center">{errorMessage}</p>
+
+            <span className="block text-center">
+              <Link
+                to={`/login`}
+                className="text-blue-500 hover:underline font-medium"
+              >
+                Login
+              </Link>
+            </span>
+          </>
+        )}
+      </form>
+    </div>
+  </>
+)
 }
