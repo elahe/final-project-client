@@ -1,6 +1,23 @@
+import { useState } from "react";
 import { Link } from "react-router-dom";
+import service from "../services/config.services";
 
 function ProductPage({products}) {
+  const [isClicked, setIsClicked]= useState(false)
+  
+   const handleAddingToCart = async (product) => {
+    try {
+      await service.patch("/cart/update", {
+        productId: product._id,
+        quantity: 1  // Add 1 item
+      });
+      setIsClicked(true);
+      alert(`${product.name} added to cart!`);
+    } catch (error) {
+      console.log("Add failed:", error);
+    }
+  }
+
   return (
     <>
       <div className="grid md:grid-cols-4 gap-8">
@@ -37,7 +54,10 @@ function ProductPage({products}) {
                 <div className="flex items-center justify-between">
                   <p className="text-xl font-semibold">${eachproduct.price}</p>
 
-                  <button className="bg-yellow-400 px-6 py-2 font-medium hover:bg-yellow-500 transition">
+                  <button
+                    onClick={()=>handleAddingToCart(eachproduct)}
+                    className="bg-yellow-400 px-6 py-2 font-medium hover:bg-yellow-500 transition"
+                    >
                     + Add
                   </button>
                 </div>
