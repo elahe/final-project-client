@@ -94,7 +94,7 @@ export default function Signup() {
             onChange={(e) => setRole(e.target.value)}
             className="w-full mt-1 px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
           >
-            <option value="stylist">select</option>
+            <option>select</option>
             <option value="stylist">Stylist</option>
             <option value="customer">Customer</option>
           </select>
