@@ -1,5 +1,6 @@
 import { createContext, useEffect, useMemo, useState } from "react";
 import service from "../services/config.services";
+import { Triangle } from 'react-loader-spinner'
 
 const AuthContext = createContext();
 
@@ -40,7 +41,19 @@ function AuthWrapper(props) {
   };
   if (loadingWaitVerifyToken) {
     // warning : should be fixed later
-    return <h2>...Waiting the verification of the user</h2>;
+    return (
+  <div className="flex justify-center items-center h-screen">
+    <Triangle
+      visible={true}
+      height="80"
+      width="80"
+      color="#078fff"
+      ariaLabel="triangle-loading"
+      wrapperStyle={{}}
+      wrapperClass=""
+    />
+  </div>
+);
   }
   return (
     <AuthContext.Provider value={passedContext}>
