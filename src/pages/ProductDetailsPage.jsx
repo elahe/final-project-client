@@ -1,10 +1,13 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import { useParams } from "react-router-dom";
 import Comments from "../components/Comments";
 import service from "../services/config.services";
+import { CartContext } from "../context/cart.context.jsx";
 
 function ProductDetailsPage({ products }) {
   const [isClicked, setIsClicked] = useState(false);
+
+  const { refreshCart } = useContext(CartContext);
 
   const handleAddingToCart = async (product) => {
     try {
@@ -13,6 +16,7 @@ function ProductDetailsPage({ products }) {
         quantity: 1, // Add 1 item
       });
       setIsClicked(true);
+      refreshCart();
       //alert(`${product.name} added to cart!`);
     } catch (error) {
       console.log("Add failed:", error);
@@ -28,7 +32,6 @@ function ProductDetailsPage({ products }) {
       try {
         const response = await service.get(`/comments/${productId}/product`);
         setComments(response.data);
-        console.log(response);
       } catch (error) {
         console.log(error);
       }

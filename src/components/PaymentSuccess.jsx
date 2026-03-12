@@ -9,7 +9,6 @@ const PaymentSuccess = () => {
 
   const navigate = useNavigate();
   const location = useLocation()
-
   const [isFetching, setIsFetching] = useState(true);
 
   useEffect(() => {
@@ -17,9 +16,6 @@ const PaymentSuccess = () => {
   }, []);
 
   const handleUseEffect = async () => {
-
-    // below is a way to extract queries from the search queries.
-    // unfortunately, react-router-dom doesn't come with a proper way to extract them, similar to useParams
     const clientSecret = new URLSearchParams(location.search).get(
       "payment_intent_client_secret"
     );
@@ -34,8 +30,6 @@ const PaymentSuccess = () => {
 
     try {
       await service.patch(`/payment/update-payment-intent`, paymentIntentInfo)
-      // !IMPORTANT: Adapt the request structure to the one in your project (services, .env, auth, etc...)
-
       setIsFetching(false);
     } catch (error) {
       navigate("/error");

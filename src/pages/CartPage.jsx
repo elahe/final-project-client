@@ -1,9 +1,12 @@
-import React, { useEffect, useState, useMemo } from "react";
+import React, { useEffect, useState, useMemo, useContext } from "react";
 import service from "../services/config.services";
 import PaymentIntent from "../components/PaymentIntent";
+import { CartContext } from "../context/cart.context.jsx";
 
 function CartPage() {
+  const { refreshCart } = useContext(CartContext);
   const [cart, setCart] = useState(null);
+  //const [checkoutCart,setCheckoutCart]= useState(null)
   const [loading, setLoading] = useState(true);
   const [showPaymentIntent, setShowPaymentIntent] = useState(false);
 
@@ -15,6 +18,7 @@ function CartPage() {
     try {
       const response = await service.get("/cart");
       setCart(response.data);
+      refreshCart();
     } catch (error) {
       console.log("Load cart failed:", error);
     } finally {
@@ -48,6 +52,7 @@ function CartPage() {
         quantity: delta,
       });
       await loadCart();
+      refreshCart();
     } catch (error) {
       console.log("Update quantity failed:", error);
     }
@@ -59,11 +64,23 @@ function CartPage() {
       await service.delete(`/cart/remove/${productId}`)
       const response = await service.get(`/cart`)
       setCart(response.data)
+      refreshCart();
     } catch (error) {
       console.log(error)
     }
 
   }
+  /*   const handleProceed = async () => {
+    try {
+      await service.delete(`/cart`);
+    } catch (err) {
+      console.log("Failed to clear the server cart:", err)
+    }
+    setCheckoutCart(cart)
+    setCart(null)
+    refreshCart()
+    setShowPaymentIntent(true)
+  } */
 
   if (loading) return <div className="p-12 text-center">Loading cart...</div>;
   // console.log(cart);
@@ -141,12 +158,22 @@ function CartPage() {
               {showPaymentIntent === false ? (
                 <button
                   onClick={() => setShowPaymentIntent(true)}
+                  //onClick={handleProceed}
                   className="w-full mt-6 bg-white text-emerald-600 py-4 px-8 rounded-2xl text-xl font-bold hover:bg-gray-100 transition-all shadow-xl"
                 >
                   Proceed to Checkout
                 </button>
               ) : (
-                <PaymentIntent cart={cart} />
+                <PaymentIntent
+                  cart={{
+                    ...cart,
+                    items: (cart?.items || []).filter((i) => i.product),
+                  }}
+                 /*  cart={{
+                    ...checkoutCart,
+                    items: (checkoutCart?.items || []).filter((i) => i.product),
+                  }} */
+                />
               )}
             </div>
           </>
