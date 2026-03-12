@@ -6,6 +6,7 @@ function CartPage() {
   const [cart, setCart] = useState(null);
   const [loading, setLoading] = useState(true);
   const [showPaymentIntent, setShowPaymentIntent] = useState(false);
+
   useEffect(() => {
     loadCart();
   }, []);
@@ -30,8 +31,42 @@ function CartPage() {
     }, 0);
   }, [cart]);
 
+  const handleQtyChange = async (productId, newQty) => {
+    if (newQty <= 0) {
+      return handleDelete(productId);
+    }
+
+    const currentItem = cart?.items?.find((item) => item.product?._id === productId);
+    const currentQty = currentItem?.quantity || 0;
+    const delta = newQty - currentQty;
+
+    if (delta === 0) return;
+
+    try {
+      await service.patch("/cart/update", {
+        productId,
+        quantity: delta,
+      });
+      await loadCart();
+    } catch (error) {
+      console.log("Update quantity failed:", error);
+    }
+  };
+
+  const handleDelete = async(productId) =>{
+    
+    try {
+      await service.delete(`/cart/remove/${productId}`)
+      const response = await service.get(`/cart`)
+      setCart(response.data)
+    } catch (error) {
+      console.log(error)
+    }
+
+  }
+
   if (loading) return <div className="p-12 text-center">Loading cart...</div>;
-  console.log(cart);
+  // console.log(cart);
   return (
     <div className="min-h-screen bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-6xl mx-auto">
@@ -46,8 +81,14 @@ function CartPage() {
               {cart.items.filter(item=>item.product).map((item) => (
                 <div
                   key={item.product._id}
-                  className="bg-white shadow-lg rounded-3xl p-8 border border-gray-200 hover:shadow-2xl transition-all"
+                  className="relative bg-white shadow-lg rounded-3xl p-8 border border-gray-200 hover:shadow-2xl transition-all"
                 >
+                  <div
+                    className="absolute top-4 right-4 text-gray-500 hover:text-gray-800 cursor-pointer"
+                    onClick={() => handleDelete(item.product._id)}
+                  >
+                    ✕
+                  </div>
                   <div className="flex items-center gap-6">
                     {/* Image */}
                     <img
@@ -66,7 +107,20 @@ function CartPage() {
                         ${item.product.price.toFixed(2)}
                       </p>
                       <p className="text-sm text-gray-500 mb-1">
-                        Qty: {item.quantity}
+                        <label className="mr-2">Qty:</label>
+                        <select
+                          value={item.quantity || 1}
+                          onChange={(e) =>
+                            handleQtyChange(item.product._id, Number(e.target.value))
+                          }
+                          className="border rounded-md px-2 py-1"
+                        >
+                          {[1, 2, 3, 4, 5].map((num) => (
+                            <option key={num} value={num}>
+                              {num}
+                            </option>
+                          ))}
+                        </select>
                       </p>
                       <p className="text-xl font-bold text-emerald-600">
                         Item Total: $

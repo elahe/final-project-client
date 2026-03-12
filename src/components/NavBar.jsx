@@ -1,13 +1,37 @@
-import React, { useContext } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import logo from "../assets/logo.png"
 import { FaUser, FaShoppingBasket } from "react-icons/fa";
 import { Link } from 'react-router-dom';
 import { AuthContext } from '../context/auth.context';
+import service from "../services/config.services";
 
 export default function NavBar() {
-    const { loggedUserId } = useContext(AuthContext)
-    const {loggedUserRole} = useContext(AuthContext)
-    
+  const { loggedUserRole, isLoggedIn } = useContext(AuthContext)
+
+
+  const [cartItemCount, setCartItemCount] = useState(0)
+
+  useEffect(() => {
+    const loadCartCount = async () => {
+      try {
+        const response = await service.get("/cart")
+        const cartItems = (response.data?.items || []).filter((item) => item.product)
+        const count = cartItems.reduce((sum, item) => sum + (item.quantity || 0), 0)
+        setCartItemCount(count)
+        // setCartItemCount(response.data)
+        // console.log(count)
+      } catch (err) {
+        setCartItemCount(0)
+      }
+    }
+
+    if (isLoggedIn) {
+      loadCartCount()
+    } else {
+      setCartItemCount(0)
+    }
+  }, [isLoggedIn])
+
   return (
     <div className="flex justify-between items-center p-4">
 
@@ -31,12 +55,12 @@ export default function NavBar() {
                 <div className="relative cursor-pointer">
                 <FaShoppingBasket />
 
-                {/* <span className="absolute -top-2 -right-2 
+                <span className="absolute -top-2 -right-2 
                 bg-black text-white text-xs 
                 w-5 h-5 flex items-center justify-center 
                 rounded-full">
-                    cart.lengh
-                </span> */}
+                    {cartItemCount}
+                </span>
 
             </div>
             </Link>

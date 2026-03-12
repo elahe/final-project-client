@@ -1,7 +1,10 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { Link } from "react-router-dom";
+import { AuthContext } from "../context/auth.context";
 
 function ProductPage({products}) {
+
+  const { loggedUserId } = useContext(AuthContext)
 
   const[filter, setFilter] = useState("all")
 
@@ -113,11 +116,11 @@ function ProductPage({products}) {
                 <div className="flex items-center justify-between">
                   <p className="text-xl font-semibold">${eachproduct.price}</p>
 
-                  <button
-                    className="bg-yellow-400 px-6 py-2 font-medium hover:bg-yellow-500 transition"
-                    >
-                    + Add
-                  </button>
+                  {loggedUserId && (
+                    <button className="bg-green-400 px-6 py-2 font-medium hover:bg-green-500 transition">
+                      <Link to={`/products/${eachproduct._id}`}>see details</Link>
+                    </button>
+                  )}
                 </div>
               </div>
             </div>
