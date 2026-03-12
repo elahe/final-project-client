@@ -5,11 +5,11 @@ import PaymentIntent from "../components/PaymentIntent";
 function CartPage() {
   const [cart, setCart] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [showPaymentIntent, setShowPaymentIntent] = useState(false)
+  const [showPaymentIntent, setShowPaymentIntent] = useState(false);
   useEffect(() => {
     loadCart();
   }, []);
-  
+
   const loadCart = async () => {
     try {
       const response = await service.get("/cart");
@@ -23,33 +23,40 @@ function CartPage() {
 
   const totalPrice = useMemo(() => {
     if (!cart?.items) return 0;
-    return cart.items.reduce((sum, item) => sum + (item.product.price * item.quantity), 0);
+    return cart.items.reduce((sum, item) => {
+      const price = item.product?.price || 0;
+      const qty = item.quantity || 0;
+      return sum + price * qty;
+    }, 0);
   }, [cart]);
 
   if (loading) return <div className="p-12 text-center">Loading cart...</div>;
-  console.log(cart)
+  console.log(cart);
   return (
     <div className="min-h-screen bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-6xl mx-auto">
-        <h1 className="text-4xl font-bold text-gray-900 mb-12 text-center">Your Cart</h1>
-        
+        <h1 className="text-4xl font-bold text-gray-900 mb-12 text-center">
+          Your Cart
+        </h1>
+
         {cart?.items?.length ? (
           <>
-            
             {/* Items List */}
             <div className="space-y-6 mb-12">
-              
-              {cart.items.map((item) => (
-                <div key={item.product._id} className="bg-white shadow-lg rounded-3xl p-8 border border-gray-200 hover:shadow-2xl transition-all">
+              {cart.items.filter(item=>item.product).map((item) => (
+                <div
+                  key={item.product._id}
+                  className="bg-white shadow-lg rounded-3xl p-8 border border-gray-200 hover:shadow-2xl transition-all"
+                >
                   <div className="flex items-center gap-6">
                     {/* Image */}
-                    <img 
-                      src={item.product.imageUrl} 
+                    <img
+                      src={item.product.imageUrl}
                       alt={item.product.name}
                       className="w-32 h-32 object-cover rounded-2xl flex-shrink-0 shadow-md"
-                      onError={(e) => e.target.src = "/placeholder.jpg"}
+                      onError={(e) => (e.target.src = "/placeholder.jpg")}
                     />
-                    
+
                     {/* Info */}
                     <div className="flex-1">
                       <h3 className="text-2xl font-bold text-gray-900 mb-2">
@@ -58,14 +65,16 @@ function CartPage() {
                       <p className="text-lg text-gray-600 mb-4">
                         ${item.product.price.toFixed(2)}
                       </p>
-                      <p className="text-sm text-gray-500 mb-1">Qty: {item.quantity}</p>
+                      <p className="text-sm text-gray-500 mb-1">
+                        Qty: {item.quantity}
+                      </p>
                       <p className="text-xl font-bold text-emerald-600">
-                        Item Total: ${(item.product.price * item.quantity).toFixed(2)}
+                        Item Total: $
+                        {(item.product.price * item.quantity).toFixed(2)}
                       </p>
                     </div>
                   </div>
                 </div>
-
               ))}
             </div>
 
@@ -75,10 +84,16 @@ function CartPage() {
                 <span>Total Price:</span>
                 <span>${totalPrice.toFixed(2)}</span>
               </div>
-              {showPaymentIntent===false ? <button onClick={()=>setShowPaymentIntent(true)}
-                className="w-full mt-6 bg-white text-emerald-600 py-4 px-8 rounded-2xl text-xl font-bold hover:bg-gray-100 transition-all shadow-xl">
-                Proceed to Checkout
-              </button>: <PaymentIntent cart={cart}/>} 
+              {showPaymentIntent === false ? (
+                <button
+                  onClick={() => setShowPaymentIntent(true)}
+                  className="w-full mt-6 bg-white text-emerald-600 py-4 px-8 rounded-2xl text-xl font-bold hover:bg-gray-100 transition-all shadow-xl"
+                >
+                  Proceed to Checkout
+                </button>
+              ) : (
+                <PaymentIntent cart={cart} />
+              )}
             </div>
           </>
         ) : (
@@ -86,9 +101,16 @@ function CartPage() {
             <div className="w-24 h-24 bg-gray-200 rounded-3xl mx-auto mb-6 flex items-center justify-center">
               🛒
             </div>
-            <h2 className="text-3xl font-bold text-gray-900 mb-4">Your cart is empty</h2>
-            <p className="text-lg text-gray-600 mb-8">Add some products to get started!</p>
-            <a href="/products" className="bg-emerald-600 text-white px-12 py-4 rounded-2xl text-xl font-bold hover:bg-emerald-700 transition-all shadow-lg">
+            <h2 className="text-3xl font-bold text-gray-900 mb-4">
+              Your cart is empty
+            </h2>
+            <p className="text-lg text-gray-600 mb-8">
+              Add some products to get started!
+            </p>
+            <a
+              href="/products"
+              className="bg-emerald-600 text-white px-12 py-4 rounded-2xl text-xl font-bold hover:bg-emerald-700 transition-all shadow-lg"
+            >
               Continue Shopping
             </a>
           </div>

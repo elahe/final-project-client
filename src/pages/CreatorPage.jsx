@@ -4,12 +4,12 @@ import EditProductModal from "../components/EditProductModal";
 import {AuthContext} from "../context/auth.context";
 import service from "../services/config.services";
 
-function CreatorPage() {
+function CreatorPage({ setProducts }) {
   const { loggedUserId } = useContext(AuthContext);
   const [isOpen, setIsOpen] = useState(false);
   const [isEditOpen, setIsEditOpen] = useState(false);
   const [editingProduct, setEditingProduct] = useState(null);
-  const [products, setProducts] = useState([]);
+  const [myProducts, setMyProducts] = useState([]);
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
@@ -19,11 +19,12 @@ function CreatorPage() {
   const allUserProducts = async () => {
     setLoading(true);
     try {
-      const response = await service.get(`/products`);
-      const userProducts = response.data.filter(product => 
+      const response = await service.get(`/products/creators/${loggedUserId}`);
+      /* const userProducts = response.data.filter(product => 
         String(product.creator?._id || product.creator) === String(loggedUserId)
       );
-      setProducts(userProducts);
+      setMyProducts(userProducts); */
+      setMyProducts(response.data)
     } catch (error) {
       console.log(error);
     }
@@ -32,10 +33,12 @@ function CreatorPage() {
 
   // delete product api
   const handleDelete = async (productId) => {
-    if (!confirm('Delete this product?')) return;
+    //if (!confirm('Delete this product?')) return;
     try {
       await service.delete(`/products/${productId}`);
-      setProducts(products.filter(p => p._id !== productId));
+      setMyProducts(prev=>prev.filter(p=>p._id !== productId))
+      setProducts(prev=>prev.filter(p=>p._id !== productId))
+      //setMyProducts(myProducts.filter(p => p._id !== productId));
     } catch (error) {
       console.log('Delete failed:', error);
     }
@@ -47,13 +50,15 @@ function CreatorPage() {
   };
 
   const handleNewProduct = (newProduct) => {
-    setProducts(prev => [newProduct, ...prev]);
+    setMyProducts(prev => [newProduct, ...prev]);
+    setProducts(prev=> [newProduct, ...prev])
   };
 
   const handleUpdateProduct = (updatedProduct) => {
-    setProducts(prev => prev.map(p => 
-      p._id === updatedProduct._id ? updatedProduct : p
-    ));
+    setMyProducts(prev => prev.map(p => 
+      p._id === updatedProduct._id ? updatedProduct : p ));
+    setProducts(prev=> prev.map(p => 
+      p._id === updatedProduct._id ? updatedProduct : p ));
     setIsEditOpen(false);
     setEditingProduct(null);
   };
@@ -94,7 +99,7 @@ function CreatorPage() {
       )}
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {products.map(product => (
+        {myProducts.map(product => (
           <div key={product._id} className="border rounded-2xl p-6 hover:shadow-xl transition-all bg-white">
             <img 
               src={product.imageUrl} 
