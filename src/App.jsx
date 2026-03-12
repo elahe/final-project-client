@@ -15,6 +15,7 @@ import { useEffect } from "react";
 import service from "./services/config.services";
 import NavBar from "./components/NavBar";
 import PaymentSuccess from "./components/PaymentSuccess";
+import Footer from "./components/Footer";
 
 
 function App() {
@@ -45,6 +46,7 @@ function App() {
        <Route path="/payment-success" element={<Private><PaymentSuccess/></Private>}/>
        <Route path="*" element={<NotFoundPage/>}/>
      </Routes>
+    <Footer/>
       
     </>
   )
