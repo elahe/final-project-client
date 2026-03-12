@@ -1,24 +1,10 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import service from "../services/config.services";
 
 function ProductPage({products}) {
-  const [isClicked, setIsClicked]= useState(false)
 
   const[filter, setFilter] = useState("all")
-  
-   const handleAddingToCart = async (product) => {
-    try {
-      await service.patch("/cart/update", {
-        productId: product._id,
-        quantity: 1  // Add 1 item
-      });
-      setIsClicked(true);
-      alert(`${product.name} added to cart!`);
-    } catch (error) {
-      console.log("Add failed:", error);
-    }
-  }
+
   //filter gender
 
   const getFilter =() =>{
@@ -128,7 +114,6 @@ function ProductPage({products}) {
                   <p className="text-xl font-semibold">${eachproduct.price}</p>
 
                   <button
-                    onClick={()=>handleAddingToCart(eachproduct)}
                     className="bg-yellow-400 px-6 py-2 font-medium hover:bg-yellow-500 transition"
                     >
                     + Add

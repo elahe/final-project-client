@@ -40,7 +40,7 @@ function App() {
        <Route path="/login" element={<Login/>}/>
        <Route path="/products" element={<ProductPage products={products}/>}/>
        <Route path="/products/:productId" element={<Private><ProductDetailsPage products={products}/></Private>}/>
-       <Route path="/creator" element={<PrivateCreator><CreatorPage products={products} setProducts={setProducts} /></PrivateCreator>}/>
+       <Route path="/creator" element={<PrivateCreator><CreatorPage setProducts={setProducts} /></PrivateCreator>}/>
        <Route path="/cart" element={<Private><CartPage/></Private>}/>
        <Route path="/payment-success" element={<Private><PaymentSuccess/></Private>}/>
        <Route path="*" element={<NotFoundPage/>}/>
