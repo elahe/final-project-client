@@ -9,13 +9,20 @@ function AuthWrapper(props) {
   const [loggedUserId, setLoggedUserId] = useState(null);
   const [loggedUserRole, setLoggedUserRole] = useState(null);
   const [loadingWaitVerifyToken, setLoadingWaitVerifyToken] = useState(true);
+  const logout = () => {
+    localStorage.removeItem("authToken"); // or whatever your token name is
+    setIsLoggedIn(false);
+    setLoggedUserId(null);
+    setLoggedUserRole(null);
+  };
     const passedContext = {
        isLoggedIn,
        setIsLoggedIn,
        loggedUserId,
        setLoggedUserId,
        loggedUserRole,
-       setLoggedUserRole
+       setLoggedUserRole,
+       logout
     } 
   useEffect(() => {
     verifyTokenReqClient();

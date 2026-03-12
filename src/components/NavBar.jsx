@@ -6,7 +6,7 @@ import { AuthContext } from "../context/auth.context";
 import { CartContext } from "../context/cart.context.jsx";
 
 export default function NavBar() {
-  const { loggedUserRole } = useContext(AuthContext);
+  const { loggedUserRole,isLoggedIn,logout } = useContext(AuthContext);
   const { cartCount } = useContext(CartContext);
 
   return (
@@ -16,6 +16,7 @@ export default function NavBar() {
       </Link>
 
       <div className="flex items-center gap-6 text-2xl">
+        {isLoggedIn === true && <div className="cursor-pointer text-xs" onClick={logout} >logout</div>}
         {/* User Icon */}
         <Link to={loggedUserRole === "stylist" ? "/creator" : "/signup"}>
           <FaUser className="cursor-pointer" />
