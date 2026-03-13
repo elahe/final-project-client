@@ -33,7 +33,7 @@ function HomePage({ products }) {
       <div className="grid md:grid-cols-4 gap-8">
         {products.slice(0, 4).map((eachproduct) => {
           return (
-            <div key={eachproduct._id} className="border border-gray-200">
+            <div key={eachproduct._id} className="border border-gray-200 flex flex-col justify-between bg-gray-100">
               {/* Image */}
               <img
                 src={eachproduct.imageUrl}

@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import logo from "../assets/logo.png";
+import logo from "../assets/logo.jpg";
 import { FaUser, FaShoppingBasket } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import { AuthContext } from "../context/auth.context";
@@ -10,13 +10,13 @@ export default function NavBar() {
   const { cartCount } = useContext(CartContext);
 
   return (
-    <div className="flex justify-between items-center p-4">
+    <div className="flex justify-between items-center py-1 px-3">
       <Link to="/">
-        <img src={logo} alt="logo" className="w-30" />
+        <img src={logo} alt="logo" className="w-17" />
       </Link>
 
       <div className="flex items-center gap-6 text-2xl">
-        {isLoggedIn === true && <div className="cursor-pointer text-xs" onClick={logout} >logout</div>}
+        {isLoggedIn === true && <div className="cursor-pointer text-sm" onClick={logout} >logout</div>}
         {/* User Icon */}
         <Link to={loggedUserRole === "stylist" ? "/creator" : "/signup"}>
           <FaUser className="cursor-pointer" />
