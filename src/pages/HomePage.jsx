@@ -7,7 +7,7 @@ function HomePage({ products }) {
   return (
     <div className="bg-gray-50 min-h-screen">
       <section
-        className="relative h-screen w-full bg-cover bg-center flex items-center justify-center"
+        className="relative h-[90vh] w-full bg-cover bg-center flex items-center justify-center"
         style={{
           backgroundImage:
             "url('https://images.pexels.com/photos/7679720/pexels-photo-7679720.jpeg')",
@@ -28,7 +28,7 @@ function HomePage({ products }) {
           </p>
         </div>
       </section>
-      <h2 className="text-4xl font-bold mb-10 text-center">All Looks</h2>
+      <h2 className="text-4xl font-bold mb-10 text-center mt-6">Our Outfit</h2>
 
       <div className="grid md:grid-cols-4 gap-8">
         {products.slice(0, 4).map((eachproduct) => {
