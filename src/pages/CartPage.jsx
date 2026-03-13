@@ -82,7 +82,7 @@ function CartPage() {
     setShowPaymentIntent(true)
   } */
 
-  if (loading) return <div className="p-12 text-center">Loading cart...</div>;
+  if (loading) return <div className="p-12 text-center bg-gray-50 min-h-screen">Loading cart...</div>;
   // console.log(cart);
   return (
     <div className="min-h-screen bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
