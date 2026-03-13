@@ -41,10 +41,12 @@ const PaymentSuccess = () => {
   }
 
   return (
-    <div>
-      <div>
-        <h1>Thank you for your order!</h1>
-        <Link to={"/"}>Go back to Home</Link>
+    <div className="min-h-screen flex flex-col">
+      <div className="flex-1 flex items-center justify-center">
+        <div className="text-center">
+          <h1 className="text-4xl font-bold mb-4">Thank you for your order!</h1>
+          <Link to="/" className="text-xl text-blue-500 hover:text-blue-700">Go back to Home</Link>
+        </div>
       </div>
     </div>
   );

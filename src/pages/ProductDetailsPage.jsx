@@ -45,8 +45,7 @@ function ProductDetailsPage({ products }) {
     return <h2>Loading product...</h2>;
   }
   return (
-    <>
-      <div className="max-w-6xl mx-auto p-10">
+      <div className="max-w-6xl mx-auto p-10 min-h-screen bg-gray-50">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
           {/* Image */}
           <div className="w-full">
@@ -83,7 +82,6 @@ function ProductDetailsPage({ products }) {
           />
         </div>
       </div>
-    </>
   );
 }
 

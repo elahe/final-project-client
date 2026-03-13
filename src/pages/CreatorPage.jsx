@@ -64,7 +64,7 @@ function CreatorPage({ setProducts }) {
   };
 
   return (
-    <div className="p-8 max-w-6xl mx-auto">
+    <div className="p-8 max-w-6xl mx-auto min-h-screen bg-gray-50">
       <div className="flex justify-between items-center mb-8">
         <h1 className="text-4xl font-bold text-gray-900">My Products</h1>
         <button 

@@ -2,7 +2,7 @@ import React from 'react'
 
 function NotFoundPage() {
   return (
-    <div>NotFoundPage</div>
+    <div className='min-h-screen bg-gray-50'>NotFoundPage</div>
   )
 }
 

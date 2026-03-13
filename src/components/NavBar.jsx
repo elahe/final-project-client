@@ -12,7 +12,7 @@ export default function NavBar() {
   return (
     <div className="flex justify-between items-center p-4">
       <Link to="/">
-        <img src={logo} alt="logo" className="w-24" />
+        <img src={logo} alt="logo" className="w-30" />
       </Link>
 
       <div className="flex items-center gap-6 text-2xl">
