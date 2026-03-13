@@ -5,7 +5,7 @@ import { AuthContext } from "../context/auth.context";
 function HomePage({ products }) {
   const { loggedUserId } = useContext(AuthContext)
   return (
-    <div>
+    <div className="bg-gray-50 min-h-screen">
       <section
         className="relative h-screen w-full bg-cover bg-center flex items-center justify-center"
         style={{
@@ -28,7 +28,7 @@ function HomePage({ products }) {
           </p>
         </div>
       </section>
-      <h2 className="text-4xl font-bold mb-10">All Looks</h2>
+      <h2 className="text-4xl font-bold mb-10 text-center">All Looks</h2>
 
       <div className="grid md:grid-cols-4 gap-8">
         {products.slice(0, 4).map((eachproduct) => {
